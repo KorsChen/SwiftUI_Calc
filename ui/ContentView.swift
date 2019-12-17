@@ -7,11 +7,12 @@
 //
 
 import SwiftUI
-import UIKit
 
-let scale: CGFloat = UIScreen.main.bounds.width / 414
+let scale = UIScreen.main.bounds.width / 414
 
 struct CalculatorButtonRow: View {
+    @Binding var brain: CalculatorBrain
+    
     let row: [CalculatorButtonItem]
     var body: some View {
         HStack {
@@ -20,7 +21,7 @@ struct CalculatorButtonRow: View {
                     title: item.title,
                     size: item.size,
                     backgroundColorName: item.backgroundColorName) {
-                        print("Button:\(item.title)")
+                        self.brain = self.brain.apply(item: item)
                 }
             }
         }
@@ -28,6 +29,8 @@ struct CalculatorButtonRow: View {
 }
 
 struct CalculatorButtonPad: View {
+    @Binding var brain: CalculatorBrain
+    
     let pad: [[CalculatorButtonItem]] = [
         [.command(.clear), .command(.flip), .command(.percent), .op(.divide)],
         [.digit(7), .digit(8), .digit(9), .op(.multiply)],
@@ -39,22 +42,29 @@ struct CalculatorButtonPad: View {
     var body: some View {
         VStack(spacing: 8) {
             ForEach(pad, id:\.self) { row in
-                CalculatorButtonRow(row: row)
+                CalculatorButtonRow(brain: self.$brain, row: row)
             }
         }
     }
 }
 
 struct ContentView: View {
+    
+    @State private var brain: CalculatorBrain = .left("0")
+    
     var body: some View {
         VStack(spacing: 12) {
-            Text("0")
+            Spacer()
+            Text(brain.output)
                 .font(.system(size: 76))
                 .minimumScaleFactor(0.5)
-                .padding(.trailing, 24)
+                .padding(.trailing, 24 * scale)
                 .lineLimit(1)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
-            CalculatorButtonPad()
+            Button("Test") {
+                self.brain = .left("1.23")
+            }
+            CalculatorButtonPad(brain: $brain)
                 .padding(.bottom)
         }
             .scaleEffect(scale)
@@ -65,7 +75,8 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
-            ContentView().previewDevice("iPhone SE")
+//            ContentView().previewDevice("iPhone SE")
+//            ContentView().previewDevice("iPad Air 2")
         }
     }
 }

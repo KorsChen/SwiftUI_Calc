@@ -7,11 +7,14 @@
 //
 
 import SwiftUI
+import Combine
 
 let scale = UIScreen.main.bounds.width / 414
 
 struct CalculatorButtonRow: View {
-    @Binding var brain: CalculatorBrain
+//    @Binding var brain: CalculatorBrain
+//    var model: CalculatorModel
+    @EnvironmentObject var model: CalculatorModel
     
     let row: [CalculatorButtonItem]
     var body: some View {
@@ -21,7 +24,8 @@ struct CalculatorButtonRow: View {
                     title: item.title,
                     size: item.size,
                     backgroundColorName: item.backgroundColorName) {
-                        self.brain = self.brain.apply(item: item)
+//                        self.brain = self.brain.apply(item: item)
+                        self.model.apply(item: item)
                 }
             }
         }
@@ -29,7 +33,8 @@ struct CalculatorButtonRow: View {
 }
 
 struct CalculatorButtonPad: View {
-    @Binding var brain: CalculatorBrain
+//    @Binding var brain: CalculatorBrain
+//    var model: CalculatorModel
     
     let pad: [[CalculatorButtonItem]] = [
         [.command(.clear), .command(.flip), .command(.percent), .op(.divide)],
@@ -42,32 +47,61 @@ struct CalculatorButtonPad: View {
     var body: some View {
         VStack(spacing: 8) {
             ForEach(pad, id:\.self) { row in
-                CalculatorButtonRow(brain: self.$brain, row: row)
+                CalculatorButtonRow(row: row)
             }
         }
     }
 }
 
 struct ContentView: View {
+    @State private var editingHistory = false
     
-    @State private var brain: CalculatorBrain = .left("0")
+//    @State private var brain: CalculatorBrain = .left("0")
+//    @ObservedObject var model = CalculatorModel()
+//    “在 SwiftUI 中，View 提供了 environmentObject(_:) 方法，来把某个 ObservableObject 的值注入到当前 View 层级及其子层级中去。在这个 View 的子层级中，可以使用 @EnvironmentObject 来直接获取这个绑定的环境值。”
+    @EnvironmentObject var model: CalculatorModel
     
     var body: some View {
         VStack(spacing: 12) {
             Spacer()
-            Text(brain.output)
+            Button("操作记录:\(model.history.count)") {
+                self.editingHistory = true
+            }.sheet(isPresented: self.$editingHistory) {
+                HistoryView(model: self.model)
+            }
+            Text(model.brain.output)
                 .font(.system(size: 76))
                 .minimumScaleFactor(0.5)
                 .padding(.trailing, 24 * scale)
                 .lineLimit(1)
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
-            Button("Test") {
-                self.brain = .left("1.23")
-            }
-            CalculatorButtonPad(brain: $brain)
-                .padding(.bottom)
+                .frame(minWidth: 0, maxWidth: .infinity, alignment:.trailing)
+            
+            CalculatorButtonPad().padding(.bottom)
         }
             .scaleEffect(scale)
+    }
+}
+
+struct HistoryView: View {
+    @ObservedObject var model: CalculatorModel
+    var body: some View {
+        VStack {
+            if model.totalCount == 0 {
+                Text("NO Record")
+            } else {
+                HStack {
+                    Text("Record").font(.headline)
+                    Text("\(model.historyDetail)").lineLimit(nil)
+                }
+                HStack {
+                    Text("Display").font(.headline)
+                    Text("\(model.brain.output)")
+                }
+                Slider(value: $model.slidingIndex,
+                       in: 0...Float(model.totalCount),
+                       step: 1)
+            }
+        }.padding()
     }
 }
 
@@ -91,11 +125,11 @@ struct CalculatorButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: fontSize))
+                .font(.system(size: fontSize * scale))
                 .foregroundColor(.white)
-                .frame(width: size.width, height: size.height)
+                .frame(width: size.width * scale, height: size.height * scale)
                 .background(Color(backgroundColorName))
-                .cornerRadius(size.width/2)
+                .cornerRadius(size.width/2 * scale)
         }
     }
 }

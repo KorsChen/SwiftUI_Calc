@@ -8,6 +8,8 @@
 
 import Foundation
 
+var pressEqual = false
+
 enum CalculatorBrain {
     case left(String)
     case leftOp(
@@ -20,7 +22,7 @@ enum CalculatorBrain {
         right: String
     )
     case error
-    
+            
     var output: String {
         let result: String
         switch self {
@@ -104,6 +106,7 @@ enum CalculatorBrain {
                 }
             case .equal:
                 if let result = currentOp.calculate(l: left, r: right) {
+                    pressEqual = true
                     return .left(result)
                 } else {
                     return .error
@@ -153,6 +156,7 @@ var formatter: NumberFormatter = {
 }()
 
 extension String {
+        
     var containsDot: Bool {
         return contains(".")
     }
@@ -162,6 +166,10 @@ extension String {
     }
     
     func apply(num: Int) -> String {
+        if pressEqual {
+            pressEqual = false
+            return "\(num)"
+        }
         return self == "0" ? "\(num)" : "\(self)\(num)"
     }
     
@@ -192,14 +200,18 @@ extension CalculatorButtonItem.Op {
         
         let result: Double?
         switch self {
-        case .plus: result = left + right
-        case .minus: result = left - right
-        case .multiply: result = left * right
-        case .divide: result = right == 0 ? nil : left / right
+        case .plus:
+            result = left + right
+        case .minus:
+            result = left - right
+        case .multiply:
+            result = left * right
+        case .divide:
+            result = right == 0 ? nil : left / right
         case .equal: fatalError()
         }
         
-        return result.map { String($0) }
+        return "\(result!)"
     }
 }
 

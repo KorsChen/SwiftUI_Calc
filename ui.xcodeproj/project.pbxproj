@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C06810C23A3FD11008B64DD /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C06810B23A3FD11008B64DD /* CalculatorBrain.swift */; };
+		2C06FDD423AA0ADE00331664 /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C06FDD323AA0ADE00331664 /* CalculatorModel.swift */; };
 		2C2A0866239A890100F38C70 /* CalculatorButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2A0865239A890100F38C70 /* CalculatorButtonItem.swift */; };
 		2CE2FF612382CEF8001F7F52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE2FF602382CEF8001F7F52 /* AppDelegate.swift */; };
 		2CE2FF632382CEF8001F7F52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE2FF622382CEF8001F7F52 /* SceneDelegate.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		2C04D7A023A93891008F50F3 /* Test SwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Test SwiftUI.entitlements"; sourceTree = "<group>"; };
 		2C06810B23A3FD11008B64DD /* CalculatorBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
+		2C06FDD323AA0ADE00331664 /* CalculatorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModel.swift; sourceTree = "<group>"; };
 		2C2A0865239A890100F38C70 /* CalculatorButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtonItem.swift; sourceTree = "<group>"; };
 		2CE2FF5D2382CEF8001F7F52 /* Test SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Test SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE2FF602382CEF8001F7F52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				2C04D7A023A93891008F50F3 /* Test SwiftUI.entitlements */,
+				2C06FDD323AA0ADE00331664 /* CalculatorModel.swift */,
 				2CE2FF602382CEF8001F7F52 /* AppDelegate.swift */,
 				2CE2FF622382CEF8001F7F52 /* SceneDelegate.swift */,
 				2CE2FF642382CEF8001F7F52 /* ContentView.swift */,
@@ -157,6 +160,7 @@
 				2CE2FF612382CEF8001F7F52 /* AppDelegate.swift in Sources */,
 				2CE2FF632382CEF8001F7F52 /* SceneDelegate.swift in Sources */,
 				2C2A0866239A890100F38C70 /* CalculatorButtonItem.swift in Sources */,
+				2C06FDD423AA0ADE00331664 /* CalculatorModel.swift in Sources */,
 				2C06810C23A3FD11008B64DD /* CalculatorBrain.swift in Sources */,
 				2CE2FF652382CEF8001F7F52 /* ContentView.swift in Sources */,
 			);
